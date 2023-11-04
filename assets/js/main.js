@@ -118,7 +118,7 @@ let swiperTestimonial = new Swiper('.testimonial_container', {
     },
     breakpoints:{
         568:{
-            slidesPreview: 2,
+            slidesPerView: 2,
         }
     }
 });
@@ -157,4 +157,34 @@ function scrollUp(){
 
     if(this.scrollY >= 560) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll');
 }
-Window.addEventListener('scroll', scrollUp)
+window.addEventListener('scroll', scrollUp)
+
+/*========Dark theme=======*/
+const themeButton = document.getElementById('theme-button')
+const darkTheme = 'dark-theme'
+const iconTheme = 'uil-sun'
+
+//previously selected topic (if user selected)
+const selectedTheme = localStorage.getItem('selected-theme')
+const selectedIcon = localStorage.getItem('selected-icon')
+
+//we obtain the current theme that the interface has by validating
+const getCurrentTheme = () => document.body.classList.contains('darkTheme') ? 'dark' : 'light'
+const getCurrentIcon = () => themeButton.classList.contains('iconTheme') ? 'uil-moon' : 'uil-sun'
+
+//we validate if the user previously chose a topic
+if (selectedTheme) {
+    //if the validation is fulfilled, we ask what the issue was to know if we activated
+    document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
+    themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
+}
+
+// Activate / deactivate the theme manually with the button
+themeButton.addEventListener('click', () => {
+    // Add or remove the dark/icon theme
+    document.body.classList.toggle(darkTheme)
+    themeButton.classList.toggle(iconTheme)
+    // we save the theme and current icon that the user chose
+    localStorage.setItem('selected-theme', getCurrentTheme())
+    localStorage.setItem('selected-icon', getCurrentIcon())
+})
